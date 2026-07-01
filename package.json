@@ -1,7 +1,8 @@
 {
   "private": true,
   "workspaces": [
-    "apps/*"
+    "apps/*",
+    "packages/*"
   ],
   "scripts": {
     "dev": "bun run dev:api & bun run dev:web",
@@ -12,7 +13,7 @@
     "test": "bddgen test && playwright test",
     "format": "biome format --write .",
     "lint": "biome check --fix .",
-    "typecheck": "tsc -b apps/api apps/web",
+    "typecheck": "tsc -b packages/contract apps/api apps/web",
     "qual": "bun run format && bun run lint && bun run typecheck && bun run test"
   },
   "dependencies": {},

@@ -1,7 +1,7 @@
+import type { Todo } from "@monobara/contract";
 import { useEffect, useState } from "react";
 import { orpc } from "../orpc";
 
-export type Todo = { id: string; text: string; done: boolean };
 export type TodoFilter = "all" | "active" | "done";
 
 export function useTodos() {

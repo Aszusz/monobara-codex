@@ -10,9 +10,9 @@
     "build": "tsc -b"
   },
   "dependencies": {
+    "@monobara/contract": "workspace:*",
     "@orpc/server": "latest",
-    "hono": "latest",
-    "zod": "latest"
+    "hono": "latest"
   },
   "devDependencies": {
     "@types/bun": "latest"

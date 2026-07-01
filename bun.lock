@@ -14,9 +14,9 @@
     "apps/api": {
       "name": "@monobara/api",
       "dependencies": {
+        "@monobara/contract": "workspace:*",
         "@orpc/server": "latest",
         "hono": "latest",
-        "zod": "latest",
       },
       "devDependencies": {
         "@types/bun": "latest",
@@ -25,9 +25,9 @@
     "apps/web": {
       "name": "@monobara/web",
       "dependencies": {
-        "@monobara/api": "workspace:*",
+        "@monobara/contract": "workspace:*",
         "@orpc/client": "latest",
-        "@orpc/server": "latest",
+        "@orpc/contract": "latest",
         "@tailwindcss/vite": "latest",
         "@vitejs/plugin-react": "latest",
         "react": "latest",
@@ -38,6 +38,13 @@
       "devDependencies": {
         "@types/react": "latest",
         "@types/react-dom": "latest",
+      },
+    },
+    "packages/contract": {
+      "name": "@monobara/contract",
+      "dependencies": {
+        "@orpc/contract": "latest",
+        "zod": "latest",
       },
     },
   },
@@ -97,6 +104,8 @@
     "@jridgewell/trace-mapping": ["@jridgewell/trace-mapping@0.3.31", "", { "dependencies": { "@jridgewell/resolve-uri": "^3.1.0", "@jridgewell/sourcemap-codec": "^1.4.14" } }, "sha512-zzNR+SdQSDJzc8joaeP8QQoCQr8NuYx2dIIytl1QeBEZHJ9uW6hebsrYgbz8hJwUQao3TWCMtmfV8Nu1twOLAw=="],
 
     "@monobara/api": ["@monobara/api@workspace:apps/api"],
+
+    "@monobara/contract": ["@monobara/contract@workspace:packages/contract"],
 
     "@monobara/web": ["@monobara/web@workspace:apps/web"],
 

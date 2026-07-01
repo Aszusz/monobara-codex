@@ -7,9 +7,9 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@monobara/api": "workspace:*",
+    "@monobara/contract": "workspace:*",
     "@orpc/client": "latest",
-    "@orpc/server": "latest",
+    "@orpc/contract": "latest",
     "@tailwindcss/vite": "latest",
     "@vitejs/plugin-react": "latest",
     "react": "latest",

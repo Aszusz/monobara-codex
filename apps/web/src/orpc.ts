@@ -1,10 +1,10 @@
-import type { AppRouter } from "@monobara/api/router";
+import type { AppRouter } from "@monobara/contract";
 import { createORPCClient } from "@orpc/client";
 import { RPCLink } from "@orpc/client/fetch";
-import type { RouterClient } from "@orpc/server";
+import type { ContractRouterClient } from "@orpc/contract";
 
 const link = new RPCLink({
   url: import.meta.env.VITE_API_URL ?? new URL("/rpc", location.origin),
 });
 
-export const orpc: RouterClient<AppRouter> = createORPCClient(link);
+export const orpc: ContractRouterClient<AppRouter> = createORPCClient(link);
