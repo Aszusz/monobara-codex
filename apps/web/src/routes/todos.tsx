@@ -1,16 +1,29 @@
+import { createFileRoute } from "@tanstack/react-router";
+import type { FormEvent } from "react";
 import { useState } from "react";
-import { TodoItem } from "./components/TodoItem";
-import { type TodoFilter, useTodos } from "./hooks/useTodos";
+import { TodoItem } from "../components/TodoItem";
+import type { TodoFilter } from "../hooks/useTodos";
+import { useTodos } from "../hooks/useTodos";
 
 const filters: TodoFilter[] = ["all", "active", "done"];
 
-export function App() {
+export const Route = createFileRoute("/todos")({
+  validateSearch: (search: Record<string, unknown>) => ({
+    filter: filters.includes(search.filter as TodoFilter)
+      ? (search.filter as TodoFilter)
+      : "all",
+  }),
+  component: TodoPage,
+});
+
+function TodoPage() {
   const [text, setText] = useState("");
-  const [filter, setFilter] = useState<TodoFilter>("all");
+  const { filter } = Route.useSearch();
+  const navigate = Route.useNavigate();
   const todos = useTodos();
   const visibleTodoIds = todos.todoIds(filter);
 
-  async function submit(event: React.FormEvent<HTMLFormElement>) {
+  async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const nextText = text.trim();
     if (!nextText) return;
@@ -43,7 +56,7 @@ export function App() {
             <button
               type="button"
               key={name}
-              onClick={() => setFilter(name)}
+              onClick={() => navigate({ search: { filter: name } })}
               className={`rounded-full px-4 py-2 text-sm font-medium capitalize ${
                 filter === name
                   ? "bg-slate-100 text-slate-950"

@@ -11,6 +11,7 @@
     "@orpc/client": "latest",
     "@orpc/contract": "latest",
     "@tanstack/react-query": "latest",
+    "@tanstack/react-router": "latest",
     "@tailwindcss/vite": "latest",
     "@vitejs/plugin-react": "latest",
     "react": "latest",
@@ -19,6 +20,7 @@
     "vite": "latest"
   },
   "devDependencies": {
+    "@tanstack/router-plugin": "latest",
     "@types/react": "latest",
     "@types/react-dom": "latest"
   }
