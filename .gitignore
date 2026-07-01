@@ -6,9 +6,9 @@ dist/
 tsconfig.tsbuildinfo
 
 # Test output
-.features-gen/
+tests/.features-gen/
 playwright-report/
-test-results/
+tests/test-results/
 
 # Environment
 .env*
