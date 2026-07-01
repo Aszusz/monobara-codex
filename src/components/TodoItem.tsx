@@ -18,10 +18,13 @@ export function TodoItem({ id }: TodoItemProps) {
         onChange={() => toggleTodo(todo.id)}
         className="size-5 accent-cyan-400"
       />
-      <span className={`flex-1 ${todo.done ? "text-slate-500 line-through" : ""}`}>
+      <span
+        className={`flex-1 ${todo.done ? "text-slate-500 line-through" : ""}`}
+      >
         {todo.text}
       </span>
       <button
+        type="button"
         onClick={() => deleteTodo(todo.id)}
         className="rounded-lg px-3 py-2 text-sm text-slate-400 hover:bg-white/10 hover:text-red-300"
       >

@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { TodoItem } from "./components/TodoItem";
-import { TodoFilter, useTodos } from "./hooks/useTodos";
+import { type TodoFilter, useTodos } from "./hooks/useTodos";
 
 const filters: TodoFilter[] = ["all", "active", "done"];
 
@@ -30,7 +30,10 @@ export function App() {
             placeholder="Add a todo"
             className="min-w-0 flex-1 rounded-xl border border-white/10 bg-slate-900 px-4 py-3 outline-none focus:border-cyan-400"
           />
-          <button className="rounded-xl bg-cyan-400 px-5 py-3 font-semibold text-slate-950 hover:bg-cyan-300">
+          <button
+            type="submit"
+            className="rounded-xl bg-cyan-400 px-5 py-3 font-semibold text-slate-950 hover:bg-cyan-300"
+          >
             Add
           </button>
         </form>
@@ -38,6 +41,7 @@ export function App() {
         <div className="mt-4 flex gap-2">
           {filters.map((name) => (
             <button
+              type="button"
               key={name}
               onClick={() => setFilter(name)}
               className={`rounded-full px-4 py-2 text-sm font-medium capitalize ${
