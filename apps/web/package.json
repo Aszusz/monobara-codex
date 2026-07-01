@@ -10,6 +10,7 @@
     "@monobara/contract": "workspace:*",
     "@orpc/client": "latest",
     "@orpc/contract": "latest",
+    "@tanstack/react-query": "latest",
     "@tailwindcss/vite": "latest",
     "@vitejs/plugin-react": "latest",
     "react": "latest",

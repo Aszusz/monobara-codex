@@ -1,19 +1,36 @@
 import type { Todo } from "@monobara/contract";
-import { useEffect, useState } from "react";
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { orpc } from "../orpc";
 
 export type TodoFilter = "all" | "active" | "done";
 
+const todosQueryKey = ["todos"] as const;
+
 export function useTodos() {
-  const [todos, setTodos] = useState<Todo[]>([]);
+  const queryClient = useQueryClient();
+  const { data: todos = [] } = useQuery({
+    queryKey: todosQueryKey,
+    queryFn: () => orpc.todos.list(),
+  });
 
-  useEffect(() => {
-    void refresh();
-  }, []);
-
-  async function refresh() {
-    setTodos(await orpc.todos.list());
+  function setTodos(todos: Todo[]) {
+    queryClient.setQueryData(todosQueryKey, todos);
   }
+
+  const addTodoMutation = useMutation({
+    mutationFn: (text: string) => orpc.todos.add({ text }),
+    onSuccess: setTodos,
+  });
+
+  const toggleTodoMutation = useMutation({
+    mutationFn: (id: string) => orpc.todos.toggle({ id }),
+    onSuccess: setTodos,
+  });
+
+  const deleteTodoMutation = useMutation({
+    mutationFn: (id: string) => orpc.todos.delete({ id }),
+    onSuccess: setTodos,
+  });
 
   function todoIds(filter: TodoFilter) {
     return todos
@@ -26,15 +43,15 @@ export function useTodos() {
   }
 
   async function addTodo(text: string) {
-    setTodos(await orpc.todos.add({ text }));
+    await addTodoMutation.mutateAsync(text);
   }
 
   async function toggleTodo(id: string) {
-    setTodos(await orpc.todos.toggle({ id }));
+    await toggleTodoMutation.mutateAsync(id);
   }
 
   async function deleteTodo(id: string) {
-    setTodos(await orpc.todos.delete({ id }));
+    await deleteTodoMutation.mutateAsync(id);
   }
 
   return { todos, todoIds, addTodo, toggleTodo, deleteTodo };
