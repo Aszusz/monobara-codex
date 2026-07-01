@@ -1,5 +1,17 @@
+# Dependencies
 node_modules/
+
+# Build output
 dist/
-.env*
-*.log
 tsconfig.tsbuildinfo
+
+# Test output
+.features-gen/
+playwright-report/
+test-results/
+
+# Environment
+.env*
+
+# Logs
+*.log
