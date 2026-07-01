@@ -7,14 +7,14 @@ const filters: TodoFilter[] = ["all", "active", "done"];
 export function App() {
   const [text, setText] = useState("");
   const [filter, setFilter] = useState<TodoFilter>("all");
-  const { addTodo, todoIds } = useTodos();
-  const visibleTodoIds = todoIds(filter);
+  const todos = useTodos();
+  const visibleTodoIds = todos.todoIds(filter);
 
-  function submit(event: React.FormEvent<HTMLFormElement>) {
+  async function submit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const nextText = text.trim();
     if (!nextText) return;
-    addTodo(nextText);
+    await todos.addTodo(nextText);
     setText("");
   }
 
@@ -57,7 +57,7 @@ export function App() {
 
         <ul className="mt-6 space-y-3">
           {visibleTodoIds.map((id) => (
-            <TodoItem key={id} id={id} />
+            <TodoItem key={id} id={id} todos={todos} />
           ))}
         </ul>
 

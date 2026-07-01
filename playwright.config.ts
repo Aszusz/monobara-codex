@@ -14,7 +14,8 @@ export default defineConfig({
     baseURL: "http://localhost:4173",
   },
   webServer: {
-    command: "bun run build && bun run preview -- --host localhost",
+    command:
+      "bun run dev:api & VITE_API_URL=http://localhost:3000/rpc bun run build && bun run preview -- --host localhost",
     url: "http://localhost:4173",
     reuseExistingServer: !process.env.CI,
   },

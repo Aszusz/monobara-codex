@@ -1,0 +1,20 @@
+{
+  "name": "@monobara/api",
+  "private": true,
+  "type": "module",
+  "exports": {
+    "./router": "./src/router.ts"
+  },
+  "scripts": {
+    "dev": "bun --hot src/index.ts",
+    "build": "tsc -b"
+  },
+  "dependencies": {
+    "@orpc/server": "latest",
+    "hono": "latest",
+    "zod": "latest"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}

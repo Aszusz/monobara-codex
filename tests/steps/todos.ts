@@ -4,6 +4,7 @@ import { createBdd } from "playwright-bdd";
 const { Given, When, Then } = createBdd();
 
 Given("I am viewing the todo app", async ({ page }) => {
+  await page.request.post("http://localhost:3000/test/reset");
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "Todos" })).toBeVisible();
 });
@@ -23,7 +24,7 @@ When("I delete the todo named {string}", async ({ page }, name: string) => {
 When(
   "I mark the todo named {string} as done",
   async ({ page }, name: string) => {
-    await todo(page, name).getByRole("checkbox").check();
+    await todo(page, name).getByRole("checkbox").click();
   },
 );
 
@@ -49,6 +50,7 @@ Then(
 async function addTodo(page: import("@playwright/test").Page, name: string) {
   await page.getByPlaceholder("Add a todo").fill(name);
   await page.getByRole("button", { name: "Add" }).click();
+  await expect(todo(page, name)).toBeVisible();
 }
 
 function todo(page: import("@playwright/test").Page, name: string) {

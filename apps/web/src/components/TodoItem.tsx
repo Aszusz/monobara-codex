@@ -1,12 +1,12 @@
-import { useTodos } from "../hooks/useTodos";
+import type { useTodos } from "../hooks/useTodos";
 
 type TodoItemProps = {
   id: string;
+  todos: ReturnType<typeof useTodos>;
 };
 
-export function TodoItem({ id }: TodoItemProps) {
-  const { todos, toggleTodo, deleteTodo } = useTodos();
-  const todo = todos.find((todo) => todo.id === id);
+export function TodoItem({ id, todos }: TodoItemProps) {
+  const todo = todos.todos.find((todo) => todo.id === id);
 
   if (!todo) return null;
 
@@ -15,7 +15,7 @@ export function TodoItem({ id }: TodoItemProps) {
       <input
         type="checkbox"
         checked={todo.done}
-        onChange={() => toggleTodo(todo.id)}
+        onChange={() => void todos.toggleTodo(todo.id)}
         className="size-5 accent-cyan-400"
       />
       <span
@@ -25,7 +25,7 @@ export function TodoItem({ id }: TodoItemProps) {
       </span>
       <button
         type="button"
-        onClick={() => deleteTodo(todo.id)}
+        onClick={() => void todos.deleteTodo(todo.id)}
         className="rounded-lg px-3 py-2 text-sm text-slate-400 hover:bg-white/10 hover:text-red-300"
       >
         Delete
