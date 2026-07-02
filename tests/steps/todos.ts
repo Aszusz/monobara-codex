@@ -3,7 +3,7 @@ import { expect } from "@playwright/test";
 import { createBdd } from "playwright-bdd";
 
 const { Given, When, Then } = createBdd();
-const password = "password";
+const password = "password123";
 
 Given("I am viewing the todo app", async ({ page }) => {
   await resetDatabase();
