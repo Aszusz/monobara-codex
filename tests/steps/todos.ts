@@ -32,6 +32,10 @@ When("I filter todos by {string}", async ({ page }, filter: string) => {
   await page.getByRole("button", { name: filter }).click();
 });
 
+When("I refresh the page", async ({ page }) => {
+  await page.reload();
+});
+
 Then("{string} should be the first todo", async ({ page }, name: string) => {
   await expect(page.getByRole("listitem").first()).toContainText(name);
 });

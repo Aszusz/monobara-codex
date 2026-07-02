@@ -11,6 +11,12 @@ Feature: Todos
     When I delete the todo named "Buy milk"
     Then I should not see a todo named "Buy milk"
 
+  Scenario: Persist todos after page refresh
+    Given I am viewing the todo app
+    And I have added a todo named "Buy milk"
+    When I refresh the page
+    Then I should see a todo named "Buy milk"
+
   Scenario: Filter active and done todos
     Given I am viewing the todo app
     And I have added a todo named "Buy milk"
