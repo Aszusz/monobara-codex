@@ -1,4 +1,4 @@
-import { resetTodos } from "@monobara/db";
+import { resetDatabase } from "@monobara/db";
 import { expect } from "@playwright/test";
 import { createBdd } from "playwright-bdd";
 
@@ -6,18 +6,18 @@ const { Given, When, Then } = createBdd();
 const password = "password";
 
 Given("I am signed out", async ({ page }) => {
-  await resetTodos();
+  await resetDatabase();
   await page.goto("/login");
 });
 
 Given("I am signed in as {string}", async ({ page }, email: string) => {
-  await resetTodos();
+  await resetDatabase();
   await createAccount(page, email);
   await signIn(page, email);
 });
 
 Given("I have an account for {string}", async ({ page }, email: string) => {
-  await resetTodos();
+  await resetDatabase();
   await signUp(page, email);
   await signOut(page);
 });

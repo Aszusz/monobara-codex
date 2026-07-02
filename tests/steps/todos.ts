@@ -1,4 +1,4 @@
-import { resetTodos } from "@monobara/db";
+import { resetDatabase } from "@monobara/db";
 import { expect } from "@playwright/test";
 import { createBdd } from "playwright-bdd";
 
@@ -6,7 +6,7 @@ const { Given, When, Then } = createBdd();
 const password = "password";
 
 Given("I am viewing the todo app", async ({ page }) => {
-  await resetTodos();
+  await resetDatabase();
   await signIn(page, "alice@example.com");
   await expect(page.getByRole("heading", { name: "Todos" })).toBeVisible();
 });
