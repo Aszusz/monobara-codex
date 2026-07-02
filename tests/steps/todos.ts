@@ -31,7 +31,7 @@ When(
 );
 
 When("I filter todos by {string}", async ({ page }, filter: string) => {
-  await page.getByRole("button", { name: filter }).click();
+  await page.getByRole("tab", { name: filter }).click();
 });
 
 When("I refresh the page", async ({ page }) => {

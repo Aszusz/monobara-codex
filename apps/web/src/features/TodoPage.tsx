@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Empty } from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
+import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { TodoItem } from "./TodoItem";
 import { useTodos } from "./useTodos";
 
@@ -39,28 +40,28 @@ export function TodoPage({ filter, setFilter }: TodoPageProps) {
               value={text}
               onChange={(event) => setText(event.target.value)}
               placeholder="Add a todo"
-              className="h-12 rounded-xl bg-muted"
+              className="h-12 rounded-xl bg-muted px-4"
             />
             <Button type="submit" className="h-12 rounded-xl px-5">
               Add
             </Button>
           </form>
 
-          <div className="mt-4 flex gap-2">
-            {todoFilters.map((name) => (
-              <Button
-                type="button"
-                key={name}
-                variant={filter === name ? "default" : "ghost"}
-                onClick={() => setFilter(name)}
-                className="capitalize"
-              >
-                {name}
-              </Button>
-            ))}
-          </div>
+          <Tabs
+            value={filter}
+            onValueChange={(value) => setFilter(value as TodoFilter)}
+            className="mt-10"
+          >
+            <TabsList>
+              {todoFilters.map((name) => (
+                <TabsTrigger key={name} value={name} className="capitalize">
+                  {name}
+                </TabsTrigger>
+              ))}
+            </TabsList>
+          </Tabs>
 
-          <ul className="mt-6 space-y-3">
+          <ul className="mt-2 divide-y">
             {visibleTodoIds.map((id) => (
               <TodoItem key={id} id={id} todos={todos} />
             ))}

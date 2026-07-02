@@ -1,3 +1,4 @@
+import { X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import type { useTodos } from "./useTodos";
@@ -8,7 +9,7 @@ export function TodoItem({ id, todos }: TodoItemProps) {
   if (!todo) return null;
 
   return (
-    <li className="flex items-center gap-3 rounded-2xl bg-muted p-3">
+    <li className="flex items-center gap-3 py-3">
       <Checkbox
         checked={todo.done}
         onCheckedChange={() => void todos.toggleTodo(todo.id)}
@@ -22,11 +23,12 @@ export function TodoItem({ id, todos }: TodoItemProps) {
       <Button
         type="button"
         variant="ghost"
-        size="sm"
+        size="icon"
         onClick={() => void todos.deleteTodo(todo.id)}
-        className="text-muted-foreground hover:text-destructive"
+        aria-label="Delete todo"
+        className="size-8 text-muted-foreground hover:text-destructive"
       >
-        Delete
+        <X className="size-4" />
       </Button>
     </li>
   );
