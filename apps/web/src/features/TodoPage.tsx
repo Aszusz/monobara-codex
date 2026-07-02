@@ -1,32 +1,27 @@
-import type { Todo } from "@monobara/contract";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import type { FormEvent } from "react";
+import type { ComponentProps } from "react";
 import { useState } from "react";
 import { authClient } from "../auth-client";
-import { orpc } from "../orpc";
+import { TodoItem } from "./TodoItem";
+import { useTodos } from "./useTodos";
 
 export type TodoFilter = "all" | "active" | "done";
 
 export const todoFilters: TodoFilter[] = ["all", "active", "done"];
 
-const todosQueryKey = ["todos"] as const;
-
 export function TodoPage({ filter, setFilter }: TodoPageProps) {
-  return <TodosApp filter={filter} setFilter={setFilter} />;
-}
-
-function TodosApp({ filter, setFilter }: TodosAppProps) {
   const [text, setText] = useState("");
   const todos = useTodos();
   const visibleTodoIds = todos.todoIds(filter);
 
-  async function submit(event: FormEvent<HTMLFormElement>) {
+  const submit: NonNullable<ComponentProps<"form">["onSubmit"]> = async (
+    event,
+  ) => {
     event.preventDefault();
     const nextText = text.trim();
     if (!nextText) return;
     await todos.addTodo(nextText);
     setText("");
-  }
+  };
 
   return (
     <main className="min-h-screen bg-slate-950 px-4 py-10 text-slate-100">
@@ -93,97 +88,7 @@ function TodosApp({ filter, setFilter }: TodosAppProps) {
   );
 }
 
-function useTodos() {
-  const queryClient = useQueryClient();
-  const { data: todos = [] } = useQuery({
-    queryKey: todosQueryKey,
-    queryFn: () => orpc.todos.list(),
-  });
-
-  function setTodos(todos: Todo[]) {
-    queryClient.setQueryData(todosQueryKey, todos);
-  }
-
-  const addTodoMutation = useMutation({
-    mutationFn: (text: string) => orpc.todos.add({ text }),
-    onSuccess: setTodos,
-  });
-
-  const toggleTodoMutation = useMutation({
-    mutationFn: (id: string) => orpc.todos.toggle({ id }),
-    onSuccess: setTodos,
-  });
-
-  const deleteTodoMutation = useMutation({
-    mutationFn: (id: string) => orpc.todos.delete({ id }),
-    onSuccess: setTodos,
-  });
-
-  function todoIds(filter: TodoFilter) {
-    return todos
-      .filter((todo) => {
-        if (filter === "active") return !todo.done;
-        if (filter === "done") return todo.done;
-        return true;
-      })
-      .map((todo) => todo.id);
-  }
-
-  async function addTodo(text: string) {
-    await addTodoMutation.mutateAsync(text);
-  }
-
-  async function toggleTodo(id: string) {
-    await toggleTodoMutation.mutateAsync(id);
-  }
-
-  async function deleteTodo(id: string) {
-    await deleteTodoMutation.mutateAsync(id);
-  }
-
-  return { todos, todoIds, addTodo, toggleTodo, deleteTodo };
-}
-
-function TodoItem({ id, todos }: TodoItemProps) {
-  const todo = todos.todos.find((todo) => todo.id === id);
-
-  if (!todo) return null;
-
-  return (
-    <li className="flex items-center gap-3 rounded-2xl bg-slate-900 p-3">
-      <input
-        type="checkbox"
-        checked={todo.done}
-        onChange={() => void todos.toggleTodo(todo.id)}
-        className="size-5 accent-cyan-400"
-      />
-      <span
-        className={`flex-1 ${todo.done ? "text-slate-500 line-through" : ""}`}
-      >
-        {todo.text}
-      </span>
-      <button
-        type="button"
-        onClick={() => void todos.deleteTodo(todo.id)}
-        className="rounded-lg px-3 py-2 text-sm text-slate-400 hover:bg-white/10 hover:text-red-300"
-      >
-        Delete
-      </button>
-    </li>
-  );
-}
-
-type TodoItemProps = {
-  id: string;
-  todos: ReturnType<typeof useTodos>;
-};
-
 type TodoPageProps = {
-  filter: TodoFilter;
-  setFilter: (filter: TodoFilter) => void;
-};
-
-type TodosAppProps = {
   filter: TodoFilter;
   setFilter: (filter: TodoFilter) => void;
 };

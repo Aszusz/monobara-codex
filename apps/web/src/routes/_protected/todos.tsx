@@ -1,5 +1,9 @@
 import { createFileRoute } from "@tanstack/react-router";
-import { type TodoFilter, TodoPage, todoFilters } from "../../features/todos";
+import {
+  type TodoFilter,
+  TodoPage,
+  todoFilters,
+} from "../../features/TodoPage";
 
 export const Route = createFileRoute("/_protected/todos")({
   validateSearch: (search: Record<string, unknown>) => ({
