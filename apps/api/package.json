@@ -12,6 +12,7 @@
   },
   "dependencies": {
     "@monobara/contract": "workspace:*",
+    "@monobara/db": "workspace:*",
     "@orpc/server": "latest",
     "hono": "latest"
   },

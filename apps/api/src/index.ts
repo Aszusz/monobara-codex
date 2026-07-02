@@ -2,7 +2,7 @@ import { onError } from "@orpc/server";
 import { RPCHandler } from "@orpc/server/fetch";
 import { Hono } from "hono";
 import { cors } from "hono/cors";
-import { resetTodos, router } from "./router";
+import { router } from "./router";
 
 const app = new Hono();
 const handler = new RPCHandler(router, {
@@ -22,10 +22,6 @@ app.use("/rpc/*", async (c, next) => {
 });
 
 app.get("/health", (c) => c.json({ ok: true }));
-app.post("/test/reset", (c) => {
-  resetTodos();
-  return c.json({ ok: true });
-});
 
 Bun.serve({
   fetch: app.fetch,

@@ -1,10 +1,11 @@
+import { resetTodos } from "@monobara/db";
 import { expect } from "@playwright/test";
 import { createBdd } from "playwright-bdd";
 
 const { Given, When, Then } = createBdd();
 
 Given("I am viewing the todo app", async ({ page }) => {
-  await page.request.post("http://localhost:3000/test/reset");
+  await resetTodos();
   await page.goto("/");
   await expect(page.getByRole("heading", { name: "Todos" })).toBeVisible();
 });

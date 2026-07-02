@@ -13,13 +13,7 @@ export default defineConfig({
   outputDir: "tests/test-results",
   testDir,
   use: {
-    baseURL: "http://localhost:4173",
-  },
-  webServer: {
-    command:
-      "bun run dev:api & VITE_API_URL=http://localhost:3000/rpc bun run build && bun run preview -- --host localhost",
-    url: "http://localhost:4173",
-    reuseExistingServer: !process.env.CI,
+    baseURL: "http://localhost:5173",
   },
   projects: [
     {

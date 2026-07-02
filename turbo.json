@@ -9,7 +9,7 @@
       "dependsOn": ["^typecheck"],
       "outputs": []
     },
-    "//#bddgen:generate": {
+    "//#bddgen:cached": {
       "inputs": [
         "playwright.config.ts",
         "tests/features/**/*.feature",
