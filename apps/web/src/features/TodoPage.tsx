@@ -1,5 +1,9 @@
 import type { ComponentProps } from "react";
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Empty } from "@/components/ui/empty";
+import { Input } from "@/components/ui/input";
 import { authClient } from "../auth-client";
 import { TodoItem } from "./TodoItem";
 import { useTodos } from "./useTodos";
@@ -24,66 +28,60 @@ export function TodoPage({ filter, setFilter }: TodoPageProps) {
   };
 
   return (
-    <main className="min-h-screen bg-slate-950 px-4 py-10 text-slate-100">
-      <section className="mx-auto max-w-xl rounded-3xl bg-white/10 p-6 shadow-2xl ring-1 ring-white/10">
-        <div className="flex items-center justify-between gap-4">
-          <h1 className="text-3xl font-bold tracking-tight">Todos</h1>
-          <button
+    <main className="min-h-screen px-4 py-10">
+      <Card className="mx-auto max-w-xl rounded-3xl border-white/10 bg-card shadow-2xl">
+        <CardHeader className="flex flex-row items-center justify-between gap-4">
+          <CardTitle className="text-3xl tracking-tight">Todos</CardTitle>
+          <Button
             type="button"
+            variant="ghost"
             onClick={async () => {
               await authClient.signOut();
               window.location.href = "/login";
             }}
-            className="rounded-lg px-3 py-2 text-sm text-slate-400 hover:bg-white/10"
           >
             Sign out
-          </button>
-        </div>
+          </Button>
+        </CardHeader>
 
-        <form onSubmit={submit} className="mt-6 flex gap-2">
-          <input
-            value={text}
-            onChange={(event) => setText(event.target.value)}
-            placeholder="Add a todo"
-            className="min-w-0 flex-1 rounded-xl border border-white/10 bg-slate-900 px-4 py-3 outline-none focus:border-cyan-400"
-          />
-          <button
-            type="submit"
-            className="rounded-xl bg-cyan-400 px-5 py-3 font-semibold text-slate-950 hover:bg-cyan-300"
-          >
-            Add
-          </button>
-        </form>
+        <CardContent>
+          <form onSubmit={submit} className="flex gap-2">
+            <Input
+              value={text}
+              onChange={(event) => setText(event.target.value)}
+              placeholder="Add a todo"
+              className="h-12 rounded-xl bg-muted"
+            />
+            <Button type="submit" className="h-12 rounded-xl px-5">
+              Add
+            </Button>
+          </form>
 
-        <div className="mt-4 flex gap-2">
-          {todoFilters.map((name) => (
-            <button
-              type="button"
-              key={name}
-              onClick={() => setFilter(name)}
-              className={`rounded-full px-4 py-2 text-sm font-medium capitalize ${
-                filter === name
-                  ? "bg-slate-100 text-slate-950"
-                  : "bg-white/10 text-slate-300 hover:bg-white/20"
-              }`}
-            >
-              {name}
-            </button>
-          ))}
-        </div>
+          <div className="mt-4 flex gap-2">
+            {todoFilters.map((name) => (
+              <Button
+                type="button"
+                key={name}
+                variant={filter === name ? "default" : "ghost"}
+                onClick={() => setFilter(name)}
+                className="capitalize"
+              >
+                {name}
+              </Button>
+            ))}
+          </div>
 
-        <ul className="mt-6 space-y-3">
-          {visibleTodoIds.map((id) => (
-            <TodoItem key={id} id={id} todos={todos} />
-          ))}
-        </ul>
+          <ul className="mt-6 space-y-3">
+            {visibleTodoIds.map((id) => (
+              <TodoItem key={id} id={id} todos={todos} />
+            ))}
+          </ul>
 
-        {visibleTodoIds.length === 0 && (
-          <p className="mt-6 rounded-2xl border border-dashed border-white/20 p-6 text-center text-slate-400">
-            No todos here.
-          </p>
-        )}
-      </section>
+          {visibleTodoIds.length === 0 && (
+            <Empty className="mt-6 rounded-2xl">No todos here.</Empty>
+          )}
+        </CardContent>
+      </Card>
     </main>
   );
 }

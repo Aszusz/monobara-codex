@@ -1,3 +1,5 @@
+import { Button } from "@/components/ui/button";
+import { Checkbox } from "@/components/ui/checkbox";
 import type { useTodos } from "./useTodos";
 
 export function TodoItem({ id, todos }: TodoItemProps) {
@@ -6,25 +8,26 @@ export function TodoItem({ id, todos }: TodoItemProps) {
   if (!todo) return null;
 
   return (
-    <li className="flex items-center gap-3 rounded-2xl bg-slate-900 p-3">
-      <input
-        type="checkbox"
+    <li className="flex items-center gap-3 rounded-2xl bg-muted p-3">
+      <Checkbox
         checked={todo.done}
-        onChange={() => void todos.toggleTodo(todo.id)}
-        className="size-5 accent-cyan-400"
+        onCheckedChange={() => void todos.toggleTodo(todo.id)}
+        className="size-5"
       />
       <span
-        className={`flex-1 ${todo.done ? "text-slate-500 line-through" : ""}`}
+        className={`flex-1 ${todo.done ? "text-muted-foreground line-through" : ""}`}
       >
         {todo.text}
       </span>
-      <button
+      <Button
         type="button"
+        variant="ghost"
+        size="sm"
         onClick={() => void todos.deleteTodo(todo.id)}
-        className="rounded-lg px-3 py-2 text-sm text-slate-400 hover:bg-white/10 hover:text-red-300"
+        className="text-muted-foreground hover:text-destructive"
       >
         Delete
-      </button>
+      </Button>
     </li>
   );
 }

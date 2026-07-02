@@ -1,6 +1,11 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { FormEvent } from "react";
 import { useState } from "react";
+import { Alert, AlertDescription } from "@/components/ui/alert";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 import { authClient } from "../../auth-client";
 
 export const Route = createFileRoute("/_public/login")({
@@ -24,29 +29,37 @@ function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-950 px-4 py-10 text-slate-100">
-      <form
-        onSubmit={submit}
-        className="mx-auto max-w-sm rounded-3xl bg-white/10 p-6 shadow-2xl ring-1 ring-white/10"
-      >
-        <h1 className="text-3xl font-bold tracking-tight">Log in</h1>
-        <AuthFields
-          email={email}
-          password={password}
-          setEmail={setEmail}
-          setPassword={setPassword}
-        />
-        {error && <p className="mt-4 text-sm text-red-300">{error}</p>}
-        <button
-          type="submit"
-          className="mt-6 w-full rounded-xl bg-cyan-400 px-5 py-3 font-semibold text-slate-950 hover:bg-cyan-300"
-        >
-          Log in
-        </button>
-        <Link to="/signup" className="mt-4 block text-sm text-cyan-300">
-          Need an account? Sign up
-        </Link>
-      </form>
+    <main className="min-h-screen px-4 py-10">
+      <Card className="mx-auto max-w-sm rounded-3xl border-white/10 bg-card shadow-2xl">
+        <CardHeader>
+          <CardTitle className="text-3xl tracking-tight">Log in</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={submit}>
+            <AuthFields
+              email={email}
+              password={password}
+              setEmail={setEmail}
+              setPassword={setPassword}
+            />
+            {error && (
+              <Alert variant="destructive" className="mt-4">
+                <AlertDescription>{error}</AlertDescription>
+              </Alert>
+            )}
+            <Button type="submit" className="mt-6 w-full rounded-xl">
+              Log in
+            </Button>
+            <Button
+              asChild
+              variant="link"
+              className="mt-4 h-auto p-0 text-primary"
+            >
+              <Link to="/signup">Need an account? Sign up</Link>
+            </Button>
+          </form>
+        </CardContent>
+      </Card>
     </main>
   );
 }
@@ -64,25 +77,23 @@ export function AuthFields({
 }) {
   return (
     <>
-      <label className="mt-6 block text-sm font-medium" htmlFor="email">
-        Email
-      </label>
-      <input
+      <Label htmlFor="email">Email</Label>
+      <Input
         id="email"
         type="email"
         value={email}
         onChange={(event) => setEmail(event.target.value)}
-        className="mt-2 w-full rounded-xl border border-white/10 bg-slate-900 px-4 py-3 outline-none focus:border-cyan-400"
+        className="mt-2 h-12 rounded-xl bg-muted"
       />
-      <label className="mt-4 block text-sm font-medium" htmlFor="password">
+      <Label className="mt-4" htmlFor="password">
         Password
-      </label>
-      <input
+      </Label>
+      <Input
         id="password"
         type="password"
         value={password}
         onChange={(event) => setPassword(event.target.value)}
-        className="mt-2 w-full rounded-xl border border-white/10 bg-slate-900 px-4 py-3 outline-none focus:border-cyan-400"
+        className="mt-2 h-12 rounded-xl bg-muted"
       />
     </>
   );
