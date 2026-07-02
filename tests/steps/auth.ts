@@ -94,7 +94,8 @@ async function signUp(page: import("@playwright/test").Page, email: string) {
 }
 
 async function signOut(page: import("@playwright/test").Page) {
-  await page.getByRole("button", { name: "Sign out" }).click();
+  await page.getByRole("button", { name: "Account menu" }).click();
+  await page.getByRole("menuitem", { name: "Sign out" }).click();
   await expect(page.getByRole("heading", { name: "Log in" })).toBeVisible();
 }
 

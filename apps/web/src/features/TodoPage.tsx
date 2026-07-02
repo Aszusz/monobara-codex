@@ -4,7 +4,6 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Empty } from "@/components/ui/empty";
 import { Input } from "@/components/ui/input";
-import { authClient } from "../auth-client";
 import { TodoItem } from "./TodoItem";
 import { useTodos } from "./useTodos";
 
@@ -30,18 +29,8 @@ export function TodoPage({ filter, setFilter }: TodoPageProps) {
   return (
     <main className="min-h-screen px-4 py-10">
       <Card className="mx-auto max-w-xl rounded-3xl border-white/10 bg-card shadow-2xl">
-        <CardHeader className="flex flex-row items-center justify-between gap-4">
+        <CardHeader>
           <CardTitle className="text-3xl tracking-tight">Todos</CardTitle>
-          <Button
-            type="button"
-            variant="ghost"
-            onClick={async () => {
-              await authClient.signOut();
-              window.location.href = "/login";
-            }}
-          >
-            Sign out
-          </Button>
         </CardHeader>
 
         <CardContent>
