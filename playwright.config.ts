@@ -12,6 +12,7 @@ const testDir = defineBddConfig({
 export default defineConfig({
   outputDir: "tests/test-results",
   testDir,
+  workers: 1,
   use: {
     baseURL: "http://localhost:5173",
   },

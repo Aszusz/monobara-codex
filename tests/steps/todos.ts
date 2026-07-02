@@ -3,10 +3,11 @@ import { expect } from "@playwright/test";
 import { createBdd } from "playwright-bdd";
 
 const { Given, When, Then } = createBdd();
+const password = "password";
 
 Given("I am viewing the todo app", async ({ page }) => {
   await resetTodos();
-  await page.goto("/");
+  await signIn(page, "alice@example.com");
   await expect(page.getByRole("heading", { name: "Todos" })).toBeVisible();
 });
 
@@ -60,4 +61,15 @@ async function addTodo(page: import("@playwright/test").Page, name: string) {
 
 function todo(page: import("@playwright/test").Page, name: string) {
   return page.getByRole("listitem").filter({ hasText: name });
+}
+
+async function signIn(page: import("@playwright/test").Page, email: string) {
+  await page.request.post("http://localhost:3000/api/auth/sign-up/email", {
+    data: { email, password, name: email },
+  });
+  await page.context().clearCookies();
+  await page.goto("/login");
+  await page.getByLabel("Email").fill(email);
+  await page.getByLabel("Password").fill(password);
+  await page.getByRole("button", { name: "Log in" }).click();
 }

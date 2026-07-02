@@ -15,6 +15,7 @@
     "@tanstack/react-router": "latest",
     "@tailwindcss/vite": "latest",
     "@vitejs/plugin-react": "latest",
+    "better-auth": "latest",
     "react": "latest",
     "react-dom": "latest",
     "tailwindcss": "latest",

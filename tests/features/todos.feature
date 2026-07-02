@@ -28,3 +28,15 @@ Feature: Todos
     When I filter todos by "done"
     Then I should see a todo named "Buy milk"
     And I should not see a todo named "Walk dog"
+
+  Scenario: Users only see their own todos
+    Given I am signed in as "alice@example.com"
+    And I have added a todo named "Alice todo"
+    When I sign out
+    And I sign in as "bob@example.com"
+    Then I should not see a todo named "Alice todo"
+    When I add a todo named "Bob todo"
+    And I sign out
+    And I sign in as "alice@example.com"
+    Then I should see a todo named "Alice todo"
+    And I should not see a todo named "Bob todo"

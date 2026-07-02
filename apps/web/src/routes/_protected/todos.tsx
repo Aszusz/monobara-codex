@@ -1,13 +1,14 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type { FormEvent } from "react";
-import { useState } from "react";
-import { TodoItem } from "../components/TodoItem";
-import type { TodoFilter } from "../hooks/useTodos";
-import { useTodos } from "../hooks/useTodos";
+import { useEffect, useState } from "react";
+import { authClient } from "../../auth-client";
+import { TodoItem } from "../../components/TodoItem";
+import type { TodoFilter } from "../../hooks/useTodos";
+import { useTodos } from "../../hooks/useTodos";
 
 const filters: TodoFilter[] = ["all", "active", "done"];
 
-export const Route = createFileRoute("/todos")({
+export const Route = createFileRoute("/_protected/todos")({
   validateSearch: (search: Record<string, unknown>) => ({
     filter: filters.includes(search.filter as TodoFilter)
       ? (search.filter as TodoFilter)
@@ -17,6 +18,20 @@ export const Route = createFileRoute("/todos")({
 });
 
 function TodoPage() {
+  const session = authClient.useSession();
+  const navigate = Route.useNavigate();
+
+  useEffect(() => {
+    if (!session.isPending && !session.data) void navigate({ to: "/login" });
+  }, [navigate, session.data, session.isPending]);
+
+  if (session.isPending) return null;
+  if (!session.data) return null;
+
+  return <TodosApp />;
+}
+
+function TodosApp() {
   const [text, setText] = useState("");
   const { filter } = Route.useSearch();
   const navigate = Route.useNavigate();
@@ -34,7 +49,19 @@ function TodoPage() {
   return (
     <main className="min-h-screen bg-slate-950 px-4 py-10 text-slate-100">
       <section className="mx-auto max-w-xl rounded-3xl bg-white/10 p-6 shadow-2xl ring-1 ring-white/10">
-        <h1 className="text-3xl font-bold tracking-tight">Todos</h1>
+        <div className="flex items-center justify-between gap-4">
+          <h1 className="text-3xl font-bold tracking-tight">Todos</h1>
+          <button
+            type="button"
+            onClick={async () => {
+              await authClient.signOut();
+              window.location.href = "/login";
+            }}
+            className="rounded-lg px-3 py-2 text-sm text-slate-400 hover:bg-white/10"
+          >
+            Sign out
+          </button>
+        </div>
 
         <form onSubmit={submit} className="mt-6 flex gap-2">
           <input

@@ -5,6 +5,7 @@ import type { ContractRouterClient } from "@orpc/contract";
 
 const link = new RPCLink({
   url: import.meta.env.VITE_API_URL ?? new URL("/rpc", location.origin),
+  fetch: (request, init) => fetch(request, { ...init, credentials: "include" }),
 });
 
 export const orpc: ContractRouterClient<AppRouter> = createORPCClient(link);
