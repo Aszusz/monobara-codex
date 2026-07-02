@@ -34,8 +34,13 @@ function SignupPage() {
   return (
     <main className="min-h-screen px-4 py-10">
       <Card className="mx-auto max-w-sm rounded-3xl border-white/10 bg-card shadow-2xl">
-        <CardHeader>
-          <CardTitle className="text-3xl tracking-tight">Sign up</CardTitle>
+        <CardHeader className="gap-2 text-center">
+          <CardTitle className="text-4xl font-black tracking-tight text-white">
+            Monobara
+          </CardTitle>
+          <h2 className="text-sm font-medium uppercase tracking-[0.28em] text-primary/50">
+            Sign Up
+          </h2>
         </CardHeader>
         <CardContent>
           <form onSubmit={submit}>
@@ -57,7 +62,7 @@ function SignupPage() {
               to="/login"
               className={buttonVariants({
                 variant: "link",
-                className: "mt-4 h-auto p-0 text-primary",
+                className: "mt-4 h-auto w-full p-0 text-primary/75",
               })}
             >
               Already have an account? Log in
