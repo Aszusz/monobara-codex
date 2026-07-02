@@ -2,7 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import type { FormEvent } from "react";
 import { useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
-import { Button } from "@/components/ui/button";
+import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -50,13 +50,15 @@ function LoginPage() {
             <Button type="submit" className="mt-6 w-full rounded-xl">
               Log in
             </Button>
-            <Button
-              asChild
-              variant="link"
-              className="mt-4 h-auto p-0 text-primary"
+            <Link
+              to="/signup"
+              className={buttonVariants({
+                variant: "link",
+                className: "mt-4 h-auto p-0 text-primary",
+              })}
             >
-              <Link to="/signup">Need an account? Sign up</Link>
-            </Button>
+              Need an account? Sign up
+            </Link>
           </form>
         </CardContent>
       </Card>
