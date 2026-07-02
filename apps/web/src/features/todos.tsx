@@ -1,7 +1,7 @@
 import type { Todo } from "@monobara/contract";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import type { FormEvent } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { authClient } from "../auth-client";
 import { orpc } from "../orpc";
 
@@ -11,16 +11,7 @@ export const todoFilters: TodoFilter[] = ["all", "active", "done"];
 
 const todosQueryKey = ["todos"] as const;
 
-export function TodoPage({ filter, setFilter, goLogin }: TodoPageProps) {
-  const session = authClient.useSession();
-
-  useEffect(() => {
-    if (!session.isPending && !session.data) void goLogin();
-  }, [goLogin, session.data, session.isPending]);
-
-  if (session.isPending) return null;
-  if (!session.data) return null;
-
+export function TodoPage({ filter, setFilter }: TodoPageProps) {
   return <TodosApp filter={filter} setFilter={setFilter} />;
 }
 
@@ -190,7 +181,6 @@ type TodoItemProps = {
 type TodoPageProps = {
   filter: TodoFilter;
   setFilter: (filter: TodoFilter) => void;
-  goLogin: () => void;
 };
 
 type TodosAppProps = {

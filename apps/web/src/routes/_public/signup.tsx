@@ -1,6 +1,6 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import type { FormEvent } from "react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { authClient } from "../../auth-client";
 import { AuthFields } from "./login";
 
@@ -9,18 +9,9 @@ export const Route = createFileRoute("/_public/signup")({
 });
 
 function SignupPage() {
-  const session = authClient.useSession();
-  const navigate = Route.useNavigate();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
-
-  useEffect(() => {
-    if (session.data) void navigate({ to: "/" });
-  }, [navigate, session.data]);
-
-  if (session.isPending) return null;
-  if (session.data) return null;
 
   async function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();

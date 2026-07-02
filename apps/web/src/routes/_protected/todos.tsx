@@ -18,7 +18,6 @@ function TodosRoute() {
     <TodoPage
       filter={filter}
       setFilter={(filter) => void navigate({ search: { filter } })}
-      goLogin={() => void navigate({ to: "/login" })}
     />
   );
 }
