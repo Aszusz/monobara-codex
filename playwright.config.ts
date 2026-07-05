@@ -14,7 +14,7 @@ export default defineConfig({
   testDir,
   workers: 1,
   use: {
-    baseURL: "http://localhost:5173",
+    baseURL: process.env.WEB_URL,
   },
   projects: [
     {

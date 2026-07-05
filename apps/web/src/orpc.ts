@@ -4,7 +4,7 @@ import { RPCLink } from "@orpc/client/fetch";
 import type { ContractRouterClient } from "@orpc/contract";
 
 const link = new RPCLink({
-  url: import.meta.env.VITE_API_URL ?? new URL("/rpc", location.origin),
+  url: new URL("/rpc", import.meta.env.VITE_API_URL),
   fetch: (request, init) => fetch(request, { ...init, credentials: "include" }),
 });
 

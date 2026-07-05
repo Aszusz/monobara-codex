@@ -103,8 +103,11 @@ async function createAccount(
   page: import("@playwright/test").Page,
   email: string,
 ) {
-  await page.request.post("http://localhost:3000/api/auth/sign-up/email", {
-    data: { email, password, name: email },
-  });
+  await page.request.post(
+    `${process.env.BETTER_AUTH_URL}/api/auth/sign-up/email`,
+    {
+      data: { email, password, name: email },
+    },
+  );
   await page.context().clearCookies();
 }

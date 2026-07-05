@@ -6,6 +6,7 @@ import { auth } from "./auth";
 import { router } from "./router";
 
 const app = new Hono();
+const port = Number(process.env.PORT);
 const handler = new RPCHandler(router, {
   interceptors: [onError(console.error)],
 });
@@ -13,7 +14,7 @@ const handler = new RPCHandler(router, {
 app.use(
   "*",
   cors({
-    origin: "http://localhost:5173",
+    origin: process.env.WEB_URL,
     credentials: true,
   }),
 );
@@ -35,7 +36,7 @@ app.get("/health", (c) => c.json({ ok: true }));
 
 Bun.serve({
   fetch: app.fetch,
-  port: Number(process.env.PORT ?? 3000),
+  port,
 });
 
-console.log("API listening on http://localhost:3000");
+console.log(`API listening on ${process.env.BETTER_AUTH_URL}`);
