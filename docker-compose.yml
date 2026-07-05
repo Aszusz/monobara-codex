@@ -1,16 +1,46 @@
 services:
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        VITE_API_URL: ${VITE_API_URL:-http://localhost:3000}
+    ports:
+      - "${WEB_PORT:-5173}:80"
+    depends_on:
+      - api
+
+  api:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    ports:
+      - "${PORT:-3000}:3000"
+    environment:
+      PORT: 3000
+      DATABASE_URL: postgres://${POSTGRES_USER:-monobara}:${POSTGRES_PASSWORD:-monobara}@postgres:5432/${POSTGRES_DB:-monobara}
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:3000}
+      WEB_URL: ${WEB_URL:-http://localhost:5173}
+    depends_on:
+      postgres:
+        condition: service_healthy
+
   postgres:
     image: postgres:18-alpine
     ports:
-      - "5432:5432"
+      - "${POSTGRES_PORT:-5432}:5432"
     environment:
-      POSTGRES_USER: monobara
-      POSTGRES_PASSWORD: monobara
-      POSTGRES_DB: monobara
+      POSTGRES_USER: ${POSTGRES_USER:-monobara}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-monobara}
+      POSTGRES_DB: ${POSTGRES_DB:-monobara}
     volumes:
-      - postgres-18-data:/var/lib/postgresql
+      - postgres-18-data:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U monobara -d monobara"]
+      test:
+        [
+          "CMD-SHELL",
+          "pg_isready -U ${POSTGRES_USER:-monobara} -d ${POSTGRES_DB:-monobara}",
+        ]
       interval: 2s
       timeout: 5s
       retries: 10
