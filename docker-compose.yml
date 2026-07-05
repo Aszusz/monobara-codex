@@ -4,7 +4,7 @@ services:
       context: .
       dockerfile: apps/web/Dockerfile
       args:
-        VITE_API_URL: ${VITE_API_URL:-http://localhost:3000}
+        VITE_API_URL: ${VITE_API_URL:-}
     ports:
       - "${WEB_PORT:-5173}:80"
     depends_on:
@@ -14,8 +14,6 @@ services:
     build:
       context: .
       dockerfile: apps/api/Dockerfile
-    ports:
-      - "${PORT:-3000}:3000"
     environment:
       PORT: 3000
       DATABASE_URL: postgres://${POSTGRES_USER:-monobara}:${POSTGRES_PASSWORD:-monobara}@postgres:5432/${POSTGRES_DB:-monobara}
@@ -40,8 +38,6 @@ services:
 
   postgres:
     image: postgres:18-alpine
-    ports:
-      - "${POSTGRES_PORT:-5432}:5432"
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-monobara}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-monobara}
