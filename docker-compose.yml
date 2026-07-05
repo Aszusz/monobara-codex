@@ -24,6 +24,19 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      migrate:
+        condition: service_completed_successfully
+
+  migrate:
+    build:
+      context: .
+      dockerfile: apps/api/Dockerfile
+    command: ["bun", "--cwd", "packages/db", "drizzle-kit", "migrate"]
+    environment:
+      DATABASE_URL: postgres://${POSTGRES_USER:-monobara}:${POSTGRES_PASSWORD:-monobara}@postgres:5432/${POSTGRES_DB:-monobara}
+    depends_on:
+      postgres:
+        condition: service_healthy
 
   postgres:
     image: postgres:18-alpine
@@ -34,7 +47,7 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-monobara}
       POSTGRES_DB: ${POSTGRES_DB:-monobara}
     volumes:
-      - postgres-18-data:/var/lib/postgresql/data
+      - postgres-18-data:/var/lib/postgresql
     healthcheck:
       test:
         [
