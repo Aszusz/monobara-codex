@@ -18,7 +18,7 @@ jobs:
         include:
           - name: web
             image: ghcr.io/${{ github.repository }}-web
-            file: Dockerfile
+            file: apps/web/Dockerfile
           - name: api
             image: ghcr.io/${{ github.repository }}-api
             file: apps/api/Dockerfile
