@@ -16,6 +16,7 @@ services:
       dockerfile: apps/api/Dockerfile
     environment:
       PORT: 3000
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET}
       DATABASE_URL: postgres://${POSTGRES_USER:-monobara}:${POSTGRES_PASSWORD:-monobara}@postgres:5432/${POSTGRES_DB:-monobara}
       BETTER_AUTH_URL: ${BETTER_AUTH_URL:-http://localhost:3000}
       WEB_URL: ${WEB_URL:-http://localhost:5173}
