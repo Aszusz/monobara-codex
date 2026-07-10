@@ -1,5 +1,6 @@
 import { Menu } from "@base-ui/react/menu";
 import { createFileRoute, Outlet, redirect } from "@tanstack/react-router";
+import { appVersion } from "../app-version";
 import { authClient } from "../auth-client";
 
 export const Route = createFileRoute("/_protected")({
@@ -34,6 +35,9 @@ function ProtectedLayout() {
               <Menu.Popup className="z-10 w-64 rounded-md border border-white/10 bg-background p-2 shadow-lg outline-none">
                 <div className="truncate px-4 py-2 text-sm text-muted-foreground">
                   {email}
+                </div>
+                <div className="px-4 pb-2 text-xs text-muted-foreground">
+                  v{appVersion}
                 </div>
                 <Menu.Item
                   className="cursor-pointer rounded-md px-4 py-2 text-sm outline-none hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"

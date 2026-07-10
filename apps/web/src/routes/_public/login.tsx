@@ -6,6 +6,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { appVersion } from "../../app-version";
 import { authClient } from "../../auth-client";
 
 export const Route = createFileRoute("/_public/login")({
@@ -67,6 +68,9 @@ function LoginPage() {
           </form>
         </CardContent>
       </Card>
+      <p className="mt-6 text-center text-xs text-muted-foreground">
+        v{appVersion}
+      </p>
     </main>
   );
 }

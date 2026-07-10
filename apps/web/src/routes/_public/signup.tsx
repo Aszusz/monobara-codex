@@ -4,6 +4,7 @@ import { useState } from "react";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { appVersion } from "../../app-version";
 import { authClient } from "../../auth-client";
 import { AuthFields } from "./login";
 
@@ -70,6 +71,9 @@ function SignupPage() {
           </form>
         </CardContent>
       </Card>
+      <p className="mt-6 text-center text-xs text-muted-foreground">
+        v{appVersion}
+      </p>
     </main>
   );
 }
