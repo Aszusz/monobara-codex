@@ -29,7 +29,7 @@ export default defineConfig(({ mode }) => {
   return {
     define: {
       "import.meta.env.VITE_APP_VERSION": JSON.stringify(
-        appVersion(env.VITE_APP_VERSION),
+        appVersion(process.env.VITE_APP_VERSION || env.VITE_APP_VERSION),
       ),
     },
     envDir: path.resolve(__dirname, "../.."),
