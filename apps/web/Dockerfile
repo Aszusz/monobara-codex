@@ -1,7 +1,9 @@
 FROM oven/bun:1.3.11 AS build
 WORKDIR /app
 ARG VITE_API_URL=http://localhost:3000
+ARG VITE_APP_VERSION=dev
 ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_APP_VERSION=$VITE_APP_VERSION
 
 COPY package.json bun.lock ./
 COPY apps/api/package.json apps/api/package.json
