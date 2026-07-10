@@ -5,7 +5,6 @@ services:
       dockerfile: apps/web/Dockerfile
       args:
         VITE_API_URL: ${VITE_API_URL:-}
-        VITE_APP_VERSION: ${VITE_APP_VERSION:-}
     ports:
       - "${WEB_PORT:-5173}:80"
     depends_on:
