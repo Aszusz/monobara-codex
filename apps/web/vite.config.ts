@@ -15,8 +15,8 @@ function gitOutput(command: string) {
 
 function appVersion(envVersion?: string) {
   return (
-    envVersion ||
     gitOutput("git describe --tags --exact-match") ||
+    envVersion ||
     gitOutput("git branch --show-current") ||
     gitOutput("git rev-parse --short HEAD") ||
     "dev"
