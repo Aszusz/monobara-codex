@@ -6,7 +6,7 @@
     "./router": "./src/router.ts"
   },
   "scripts": {
-    "dev": "bun --hot src/index.ts",
+    "dev": "bun --env-file=../../.env --hot src/index.ts",
     "build": "tsc -b",
     "typecheck": "tsc -b"
   },

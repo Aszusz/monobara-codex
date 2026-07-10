@@ -24,7 +24,11 @@ jobs:
           --health-retries 10
 
     env:
+      BETTER_AUTH_URL: http://localhost:3000
       DATABASE_URL: postgres://monobara:monobara@localhost:5432/monobara
+      PORT: 3000
+      VITE_API_URL: http://localhost:3000
+      WEB_URL: http://localhost:5173
 
     steps:
       - uses: actions/checkout@v5
@@ -54,8 +58,8 @@ jobs:
           bun --cwd apps/api dev &
           bun --cwd apps/web dev &
 
-          until curl -fsS http://localhost:3000/health; do sleep 1; done
-          until curl -fsS http://localhost:5173; do sleep 1; done
+          timeout 60s bash -c 'until curl -fsS http://localhost:3000/health; do sleep 1; done'
+          timeout 60s bash -c 'until curl -fsS http://localhost:5173; do sleep 1; done'
 
           bun run bddgen:cached
           bunx playwright test
