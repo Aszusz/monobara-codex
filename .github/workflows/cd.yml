@@ -69,7 +69,7 @@ jobs:
 
       - name: Trigger deploy webhook
         env:
-          DEPLOY_WEBHOOK_TOKEN: ${{ secrets.DEPLOY_WEBHOOK_TOKEN }}
+          DEPLOY_WEBHOOK_SECRET: ${{ secrets.DEPLOY_WEBHOOK_SECRET }}
           TAG: ${{ github.ref_name }}
           COMMIT: ${{ github.sha }}
         run: |
@@ -94,9 +94,15 @@ jobs:
             }'
           )"
 
+          timestamp="$(date +%s)"
+          signature="$(printf '%s.%s' "${timestamp}" "${payload}" \
+            | openssl dgst -sha256 -hmac "${DEPLOY_WEBHOOK_SECRET}" -binary \
+            | xxd -p -c 256)"
+
           curl -fsS \
             -X POST \
-            -H "Authorization: Bearer ${DEPLOY_WEBHOOK_TOKEN}" \
+            -H "X-Deploy-Timestamp: ${timestamp}" \
+            -H "X-Deploy-Signature: sha256=${signature}" \
             -H "Content-Type: application/json" \
             --data "${payload}" \
             "${DEPLOY_WEBHOOK_URL}"
