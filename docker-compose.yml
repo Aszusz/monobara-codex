@@ -1,5 +1,6 @@
 services:
   web:
+    image: ${WEB_IMAGE:-ghcr.io/aszusz/monobara-codex-web:${TAG:-latest}}
     build:
       context: .
       dockerfile: apps/web/Dockerfile
@@ -11,9 +12,12 @@ services:
       - api
 
   api:
+    image: ${API_IMAGE:-ghcr.io/aszusz/monobara-codex-api:${TAG:-latest}}
     build:
       context: .
       dockerfile: apps/api/Dockerfile
+    ports:
+      - "127.0.0.1:${API_PORT:-3000}:3000"
     environment:
       PORT: 3000
       BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:?BETTER_AUTH_SECRET is required}
@@ -27,6 +31,7 @@ services:
         condition: service_completed_successfully
 
   migrate:
+    image: ${API_IMAGE:-ghcr.io/aszusz/monobara-codex-api:${TAG:-latest}}
     build:
       context: .
       dockerfile: apps/api/Dockerfile
